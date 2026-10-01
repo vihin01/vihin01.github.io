@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vihin S – Data Analyst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F5F1;--panel:#FFFFFF;--ink:#14202B;--muted:#55636E;--line:#D5DCD8;--grid:rgba(20,32,43,.06);
+  --accent:#2350E0;--hi:#E8A317;--dot:#C3CCD3;--on-accent:#FFFFFF;
+  --disp:'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif;--body:'Source Sans 3','Segoe UI',Arial,sans-serif;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101820;--panel:#18232D;--ink:#E8EEF1;--muted:#9BAAB5;--line:#2A3844;--grid:rgba(232,238,241,.06);--accent:#7EA3FF;--hi:#F5BB3B;--dot:#33434F;--on-accent:#101820}}
+:root[data-theme="dark"]{--bg:#101820;--panel:#18232D;--ink:#E8EEF1;--muted:#9BAAB5;--line:#2A3844;--grid:rgba(232,238,241,.06);--accent:#7EA3FF;--hi:#F5BB3B;--dot:#33434F;--on-accent:#101820}
+html{scroll-behavior:smooth;scroll-padding-top:calc(72px + env(safe-area-inset-top,0px))}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.6 var(--body);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:44px 44px}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:3px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+main.wrap,footer{position:relative;z-index:1}
+#prog{position:fixed;top:0;left:0;height:4px;width:100%;background:var(--hi);transform-origin:0 50%;transform:scaleX(0);z-index:30}
+nav.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+nav.top .wrap{display:flex;justify-content:space-between;align-items:center;height:64px}
+nav.top b{font-family:var(--disp);font-size:1.15rem}
+nav.top div{display:flex;gap:6px;flex-wrap:wrap}
+nav.top a{color:var(--muted);text-decoration:none;padding:6px 12px;border-radius:99px;font-weight:600;font-size:.95rem;transition:background .2s,color .2s}
+nav.top a:hover{color:var(--ink)}
+nav.top a.on{background:var(--accent);color:var(--on-accent)}
+h1,h2,h3,h4{font-family:var(--disp);margin:0;line-height:1.1;letter-spacing:-.015em}
+h1{font-weight:800;font-size:clamp(2.5rem,6vw,4.6rem);letter-spacing:-.03em}
+h2.sec{font-size:clamp(1.9rem,4vw,2.8rem);margin-bottom:12px;font-weight:800}
+.sub{color:var(--muted);max-width:38em;margin:0 0 40px}
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:48px;align-items:center;padding:64px 0 88px;min-height:78vh}
+.hero p.lead{font-size:1.2rem;color:var(--muted);max-width:32em;margin:22px 0 28px}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;padding:11px 20px;border-radius:8px;font:600 1rem var(--body);text-decoration:none;border:2px solid var(--accent);cursor:pointer;background:transparent;color:var(--accent);transition:transform .15s,background .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn.p{background:var(--accent);color:var(--on-accent)}
+.btn.sm{padding:8px 14px;font-size:.92rem;border-width:1.5px}
+.btn[hidden]{display:none}
+.plot{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px}
+.plot canvas{width:100%;aspect-ratio:40/25;display:block}
+.plot .cap{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px;font-size:.95rem;color:var(--muted)}
+.tog{display:flex;border:1.5px solid var(--accent);border-radius:8px;overflow:hidden}
+.tog button{font:600 .9rem var(--body);padding:6px 12px;border:0;background:transparent;color:var(--accent);cursor:pointer}
+.tog button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:12px;background:var(--panel);overflow:hidden}
+.stats div{padding:22px 20px;border-right:1px solid var(--line)}
+.stats div:last-child{border-right:0}
+.stats strong{display:block;font:800 clamp(1.8rem,3.4vw,2.6rem) var(--disp);color:var(--accent)}
+.stats span{color:var(--muted);font-size:.95rem}
+section{padding:88px 0 24px}
+.case{display:grid;grid-template-columns:1fr 1.05fr;gap:56px;padding:56px 0;border-top:1px solid var(--line)}
+.case .txt{position:sticky;top:96px;align-self:start}
+.case h3{font-size:clamp(1.6rem,3vw,2.1rem);margin-bottom:6px}
+.meta{color:var(--muted);font-size:.95rem;margin:0 0 16px}
+.tags{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0 0 18px;list-style:none}
+.tags li{border:1.5px solid var(--line);padding:2px 12px;border-radius:99px;font-size:.88rem;font-weight:600}
+.txt p{margin:0 0 20px}
+.viz{display:grid;gap:20px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px}
+.card h4{font-size:1.05rem;margin-bottom:16px}
+.bar{margin-bottom:14px}
+.bar .lab{display:flex;justify-content:space-between;font-size:.95rem;margin-bottom:5px}
+.bar .t{height:24px;background:var(--dot);border-radius:4px;overflow:hidden}
+.bar .f{height:100%;width:0;background:var(--accent);transition:width 1.2s cubic-bezier(.2,.7,.2,1)}
+.bar .f.h{background:var(--hi)}
+.card.in .f{width:var(--w)}
+.card ul{margin:0;padding-left:1.1em}
+.card li{margin-bottom:8px}
+.seg5{display:flex;height:34px;border-radius:6px;overflow:hidden;gap:3px}
+.seg5 i{flex:0 1 0;transition:flex-basis 1.2s cubic-bezier(.2,.7,.2,1);background:var(--dot)}
+.seg5 i:first-child{background:var(--hi)}
+.card.in .seg5 i{flex-basis:var(--w)}
+.skg{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.skg h4{margin-bottom:12px;font-size:1.1rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips span{background:var(--bg);border:1.5px solid var(--line);border-radius:8px;padding:4px 12px;font-size:.95rem;font-weight:600}
+.about{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.about p,.about ul{margin:0;color:var(--muted)}
+.about ul{padding-left:1.1em}
+.about h4{margin-bottom:8px}
+.contact{background:var(--accent);color:var(--on-accent);border-radius:16px;padding:56px 40px;margin:72px 0 40px}
+.contact h2{font-size:clamp(2rem,5vw,3.4rem);font-weight:800;margin-bottom:12px}
+.contact p{margin:0 0 24px;max-width:34em;font-size:1.15rem}
+.contact .btn{border-color:var(--on-accent);color:var(--on-accent)}
+.contact .btn.p{background:var(--on-accent);color:var(--accent)}
+footer{padding:0 0 48px;color:var(--muted);font-size:.9rem;text-align:center}
+.js .rv{opacity:0;transform:translateY(28px);transition:opacity .7s,transform .7s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+.js .rv.in{opacity:1;transform:none}
+.js h2.sec .ln{display:inline-block;clip-path:inset(0 100% 0 0);transition:clip-path .9s cubic-bezier(.2,.7,.2,1)}
+.js h2.sec.in .ln{clip-path:inset(0 0 0 0)}
+
+dialog#ask{width:min(560px,calc(100% - 32px));max-height:82vh;border:1px solid var(--line);border-radius:14px;padding:0;background:var(--panel);color:var(--ink)}
+dialog#ask[open]{display:flex;flex-direction:column}
+dialog#ask::backdrop{background:rgba(10,15,20,.55)}
+.ask-h{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line)}
+.ask-h h3{font-size:1.15rem}
+.ask-h p{margin:2px 0 0;font-size:.85rem;color:var(--muted)}
+#log{padding:16px 20px;overflow:auto;display:grid;gap:12px;align-content:start;min-height:120px}
+.msg{padding:10px 14px;border-radius:10px;max-width:92%;white-space:pre-wrap;font-size:1rem}
+.msg.u{background:var(--accent);color:var(--on-accent);justify-self:end}
+.msg.a{background:var(--bg);border:1px solid var(--line)}
+.sug{display:flex;flex-wrap:wrap;gap:8px;padding:0 20px 12px}
+.ask-f{display:flex;gap:8px;padding:12px 20px 16px;border-top:1px solid var(--line)}
+.ask-f input{flex:1;min-width:0;font:inherit;padding:10px 12px;border-radius:8px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink)}
+@media (max-width:860px){
+  .hero,.case,.skg,.about{grid-template-columns:1fr;gap:28px}
+  .case .txt{position:static}
+  .hero{padding:32px 0 56px;min-height:0}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stats div:nth-child(2){border-right:0}.stats div:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  nav.top div a{padding:6px 8px;font-size:.88rem}
+  .contact{padding:36px 22px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .js .rv,.js h2.sec .ln,.bar .f,.seg5 i,.btn{transition:none}
+  .js .rv{opacity:1;transform:none}.js h2.sec .ln{clip-path:none}
+}
+</style>
+</head>
+<body>
+<div id="prog" aria-hidden="true"></div>
+<canvas id="bg" aria-hidden="true"></canvas>
+<nav class="top" aria-label="Sections"><div class="wrap"><b>Vihin S</b>
+  <div><a href="#work">Projects</a><a href="#skills">Skills</a><a href="#contact">Contact</a></div></div></nav>
+
+<main class="wrap">
+  <div class="hero">
+    <div>
+      <h1 class="rv">I find the customers and drivers that move the numbers.</h1>
+      <p class="lead rv" style="--d:.15s">Fresher data analyst in Bengaluru. I clean raw data with SQL, model it in Excel, and ship Power BI dashboards. Every AI-assisted result gets checked by hand before I trust it.</p>
+      <div class="btns rv" style="--d:.3s"><a class="btn p" href="#work">See my projects</a><a class="btn" href="#contact">Hire me</a></div>
+    </div>
+    <div class="plot rv" style="--d:.2s">
+      <canvas id="dots" role="img" aria-label="1,000 dots standing for customers. 222 are Champions, who bring 65% of revenue."></canvas>
+      <div class="cap"><span id="capt">22% of customers are Champions.</span>
+        <div class="tog" role="group" aria-label="Chart view"><button id="bc" aria-pressed="true">Customers</button><button id="br" aria-pressed="false">Revenue</button></div></div>
+    </div>
+  </div>
+
+  <div class="stats rv" aria-label="Project scale">
+    <div><strong data-n="500" data-s="K+">0</strong><span>transactions cleaned</span></div>
+    <div><strong data-n="4338">0</strong><span>customers segmented</span></div>
+    <div><strong data-n="1470">0</strong><span>employee records analysed</span></div>
+    <div><strong data-n="3" data-s="x">0</strong><span>attrition risk from overtime</span></div>
+  </div>
+
+  <section id="work">
+    <h2 class="sec"><span class="ln">Projects</span></h2>
+    <p class="sub rv">Two end-to-end analyses, from raw data to a dashboard someone can act on.</p>
+
+    <article class="case" id="p1">
+      <div class="txt rv">
+        <h3>E-commerce customer segmentation</h3>
+        <p class="meta">UCI Online Retail dataset · Nov–Dec 2025</p>
+        <ul class="tags"><li>SQL</li><li>Excel</li><li>Power BI</li><li>RFM</li></ul>
+        <p>I cleaned 500K+ transactions in SQL and built an RFM model in Excel that sorts 4,338 customers into 5 segments. The top 22% ("Champions") bring in 65% of revenue, and the UK alone accounts for 82%.</p>
+        <p>AI drafted the SQL for RFM scoring. I checked each query's logic and output against the source data, then used Key Influencers to see which behaviors predict high-value customers.</p>
+        <div class="btns">
+          <a class="btn sm p" data-link="dashboard1" href="#" hidden>Open dashboard</a>
+          <a class="btn sm" data-link="code1" href="#" hidden>View code</a>
+          <a class="btn sm" href="https://archive.ics.uci.edu/dataset/352/online+retail" target="_blank" rel="noopener">See the dataset</a>
+          <a href="mailto:vihin01vihin@gmail.com?subject=Question%20about%20your%20RFM%20project" class="btn sm askb" data-ask="rfm">Ask about this</a>
+          <a class="btn sm" href="#p2">Next project</a>
+        </div>
+      </div>
+      <div class="viz">
+        <div class="card rv"><h4>Where the revenue sits</h4>
+          <div class="bar"><div class="lab"><span>Champions' share of revenue</span><b>65%</b></div><div class="t"><div class="f h" style="--w:65%"></div></div></div>
+          <div class="bar"><div class="lab"><span>UK's share of revenue</span><b>82%</b></div><div class="t"><div class="f" style="--w:82%"></div></div></div></div>
+        <div class="card rv"><h4>4,338 customers in 5 segments (Champions in gold)</h4>
+          <div class="seg5" role="img" aria-label="Champions are 22% of customers"><i style="--w:22%"></i><i style="--w:40%"></i><i style="--w:12%"></i><i style="--w:15%"></i><i style="--w:11%"></i></div>
+          <p class="meta" style="margin:10px 0 0">Bar widths show each segment's share of the 4,338 customers.</p></div>
+      </div>
+    </article>
+
+    <article class="case" id="p2">
+      <div class="txt rv">
+        <h3>HR employee attrition analysis</h3>
+        <p class="meta">IBM HR Analytics dataset · Jan–Feb 2025</p>
+        <ul class="tags"><li>Power BI</li><li>DAX</li><li>Pivot tables</li></ul>
+        <p>Attrition across 1,470 employees is 16.1%. Overtime is the standout driver: 30.5% of people working overtime leave, against 10.4% of those who don't. Income level and job satisfaction also predict who leaves.</p>
+        <p>I used the Decomposition Tree and Key Influencers to rank drivers, then cross-checked them against manual pivot tables. The dashboard lets HR monitor risk by department and role.</p>
+        <div class="btns">
+          <a class="btn sm p" data-link="dashboard2" href="#" hidden>Open dashboard</a>
+          <a class="btn sm" data-link="code2" href="#" hidden>View code</a>
+          <a class="btn sm" href="https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset" target="_blank" rel="noopener">See the dataset</a>
+          <a href="mailto:vihin01vihin@gmail.com?subject=Question%20about%20your%20attrition%20project" class="btn sm askb" data-ask="hr">Ask about this</a>
+          <a class="btn sm" href="#contact">Get in touch</a>
+        </div>
+      </div>
+      <div class="viz">
+        <div class="card rv"><h4>Attrition rate by overtime</h4>
+          <div class="bar"><div class="lab"><span>Works overtime</span><b>30.5%</b></div><div class="t"><div class="f h" style="--w:30.5%"></div></div></div>
+          <div class="bar"><div class="lab"><span>No overtime</span><b>10.4%</b></div><div class="t"><div class="f" style="--w:10.4%"></div></div></div>
+          <div class="bar"><div class="lab"><span>Company overall</span><b>16.1%</b></div><div class="t"><div class="f" style="--w:16.1%"></div></div></div></div>
+        <div class="card rv"><h4>Leading predictors</h4><ul><li>Overtime</li><li>Income level</li><li>Job satisfaction</li></ul></div>
+      </div>
+    </article>
+  </section>
+
+
+  <section id="skills">
+    <h2 class="sec"><span class="ln">Skills and background</span></h2>
+    <div class="skg">
+      <div class="card rv"><h4>Core analytics</h4><div class="chips"><span>SQL</span><span>Excel</span><span>Pivot Tables</span><span>Power Query</span><span>XLOOKUP</span><span>Power BI</span><span>DAX</span></div></div>
+      <div class="card rv" style="--d:.1s"><h4>AI-assisted analytics</h4><div class="chips"><span>Power BI Copilot</span><span>Excel Copilot</span><span>Key Influencers</span><span>Decomposition Tree</span><span>Q&amp;A</span></div></div>
+      <div class="card rv"><h4>Techniques</h4><div class="chips"><span>RFM segmentation</span><span>Cohort analysis</span><span>Retention</span><span>KPI design</span><span>Data cleaning</span></div></div>
+      <div class="card rv" style="--d:.1s"><h4>Certificates</h4><ul><li>Data Visualization, Kaggle (2025)</li><li>Power BI, Microsoft Learn (2025)</li><li>SQL Basic, HackerRank (2025)</li></ul></div>
+    </div>
+    <div class="about" style="margin-top:20px">
+      <div class="card rv"><h4>Education</h4><p>B.Sc. Computer Science (AI &amp; Data Science), Karpagam Academy of Higher Education, Coimbatore</p></div>
+      <div class="card rv" style="--d:.1s"><h4>Languages</h4><p>Tamil, English, Malayalam</p></div>
+    </div>
+  </section>
+
+  <section id="contact" style="padding-top:0">
+    <div class="contact rv">
+      <h2>Looking for a fresher analyst?</h2>
+      <p>I'm open to entry-level data and product analyst roles. Send me a dataset or a question and I'll show you how I think.</p>
+      <div class="btns">
+        <a class="btn p" href="mailto:vihin01vihin@gmail.com">Email me</a>
+        <button class="btn" id="cp" type="button">Copy email</button>
+        <a class="btn" href="https://linkedin.com/in/vihin-s-1a3184285" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<dialog id="ask" aria-labelledby="ask-t">
+  <div class="ask-h"><div><h3 id="ask-t">Ask about this project</h3><p>Answers are written by Claude from the project summary only.</p></div><button class="btn sm" id="ask-x" type="button">Close</button></div>
+  <div id="log" aria-live="polite"></div>
+  <div class="sug" id="sug"></div>
+  <div class="ask-f"><input id="ask-i" type="text" maxlength="300" placeholder="Type a question" aria-label="Your question"><button class="btn p sm" id="ask-s" type="button">Ask</button></div>
+</dialog>
+<footer>Vihin S · Bengaluru, India</footer>
+
+<script>
+// Fill these in to reveal the matching buttons on each project.
+var LINKS={dashboard1:"https://vihin01.github.io/rfm-dashboard.html",code1:"https://github.com/vihin01/ecommerce-rfm-segmentation",dashboard2:"https://vihin01.github.io/hr-dashboard.html",code2:"https://github.com/vihin01/hr-attrition-analysis"};
+document.documentElement.classList.add('js');
+Object.keys(LINKS).forEach(function(k){if(LINKS[k]){var a=document.querySelector('[data-link="'+k+'"]');a.href=LINKS[k];a.target="_blank";a.rel="noopener";a.hidden=false}});
+var RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+// scroll reveal + bars + count-up
+function count(el){var n=+el.dataset.n,s=el.dataset.s||'',t0=performance.now();
+  if(RM){el.textContent=n.toLocaleString('en-US')+s;return}
+  (function f(t){var p=Math.min((t-t0)/1400,1),e=1-Math.pow(1-p,3);el.textContent=Math.round(n*e).toLocaleString('en-US')+s;if(p<1)requestAnimationFrame(f)})(t0)}
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;
+  var el=e.target;el.classList.add('in');el.querySelectorAll('[data-n]').forEach(count);io.unobserve(el)})},{threshold:.2});
+document.querySelectorAll('.rv,h2.sec').forEach(function(el){io.observe(el)});
+
+// scroll progress and active nav
+var prog=document.getElementById('prog'),links=[].slice.call(document.querySelectorAll('nav.top a')),
+    secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+function onScroll(){var h=document.documentElement,m=h.scrollHeight-h.clientHeight;
+  prog.style.transform='scaleX('+(m>0?h.scrollTop/m:0)+')';
+  var y=scrollY+innerHeight*.35,cur=-1;secs.forEach(function(s,i){if(s.offsetTop<=y)cur=i});
+  links.forEach(function(a,i){a.classList.toggle('on',i===cur)});}
+addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);onScroll();
+
+// dot-matrix chart
+var cv=document.getElementById('dots'),cx=cv.getContext('2d'),COLS=40,ROWS=25,N=COLS*ROWS,
+    order=[],i,seed=7;for(i=0;i<N;i++)order.push(i);
+function rnd(){seed=(seed*16807)%2147483647;return seed/2147483647}
+for(i=N-1;i>0;i--){var j=Math.floor(rnd()*(i+1)),t=order[i];order[i]=order[j];order[j]=t}
+var rank=new Array(N);order.forEach(function(d,k){rank[d]=k});
+var lit=0,target=222,started=false,raf=0;
+function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()}
+function draw(){var w=cv.clientWidth,h=cv.clientHeight,d=devicePixelRatio||1;
+  if(cv.width!==Math.round(w*d)){cv.width=Math.round(w*d);cv.height=Math.round(h*d)}
+  cx.setTransform(d,0,0,d,0,0);cx.clearRect(0,0,w,h);
+  var cw=w/COLS,ch=h/ROWS,r=Math.min(cw,ch)*.32,off=css('--dot'),on=css('--hi'),k,x,y;
+  for(k=0;k<N;k++){x=(k%COLS+.5)*cw;y=(Math.floor(k/COLS)+.5)*ch;
+    cx.fillStyle=rank[k]<lit?on:off;cx.beginPath();cx.arc(x,y,rank[k]<lit?r*1.15:r,0,6.283);cx.fill()}}
+function anim(){cancelAnimationFrame(raf);
+  if(RM){lit=target;draw();return}
+  (function f(){var dlt=target-lit;lit+=Math.sign(dlt)*Math.max(1,Math.abs(dlt)*.06);
+    if(Math.abs(target-lit)<1)lit=target;draw();if(lit!==target)raf=requestAnimationFrame(f)})()}
+new IntersectionObserver(function(es,o){if(es[0].isIntersecting&&!started){started=true;anim();o.disconnect()}},{threshold:.3}).observe(cv);
+draw();addEventListener('resize',draw);
+matchMedia('(prefers-color-scheme:dark)').addEventListener('change',draw);
+var bc=document.getElementById('bc'),br=document.getElementById('br'),capt=document.getElementById('capt');
+function mode(rev){target=rev?652:222;bc.setAttribute('aria-pressed',!rev);br.setAttribute('aria-pressed',rev);
+  capt.textContent=rev?'Those Champions bring in 65% of revenue.':'22% of customers are Champions.';started=true;anim()}
+bc.onclick=function(){mode(false)};br.onclick=function(){mode(true)};
+
+// AI-powered "Ask about this" (works on claude.ai; elsewhere the button opens an email instead)
+var FACTS={
+ rfm:{name:"E-commerce customer segmentation (UCI Online Retail dataset, Nov-Dec 2025)",
+  text:"Cleaned and structured 500K+ transaction records with SQL, then built an RFM segmentation model in Excel that classifies 4,338 customers into 5 segments. The top 22% 'Champions' segment generates 65% of total revenue, and the UK accounts for 82% of revenue. AI tools were used to draft and optimize complex SQL queries for RFM scoring; each query's logic and output were manually validated against source data before use. Power BI's Key Influencers visual was applied to see which behavioral factors best predict high-value customers. Findings were presented in an interactive Power BI dashboard with KPI cards and slicers. Tools: SQL, Excel, Power BI.",
+  q:["What was the key finding?","How did you check the AI-written SQL?","Which tools did you use?"]},
+ hr:{name:"HR employee attrition analysis (IBM HR Analytics dataset, 1,470 employees, Jan-Feb 2025)",
+  text:"Analyzed 1,470 employee records: overall attrition rate 16.1%, using pivot tables and DAX-based segmentation in Power BI. Overtime was a 3x attrition risk driver (30.5% attrition with overtime vs 10.4% without); income level and job satisfaction were also leading predictors. Power BI's Decomposition Tree and Key Influencers AI visuals were used to independently verify and rank drivers, cross-checked against manual pivot-table analysis before drawing conclusions. Built a Power BI dashboard with KPI cards and DAX measures so HR stakeholders can monitor attrition risk by department and role. Tools: Power BI, DAX, pivot tables.",
+  q:["What was the key finding?","How did you verify the AI visuals?","Which tools did you use?"]}};
+var SAMPLE=null,cur=null,hist=[],busy=false,ctl=null;
+var dlg=document.getElementById('ask'),logEl=document.getElementById('log'),inp=document.getElementById('ask-i'),sug=document.getElementById('sug');
+function addMsg(cls,t){var d=document.createElement('div');d.className='msg '+cls;d.textContent=t;logEl.appendChild(d);logEl.scrollTop=logEl.scrollHeight;return d}
+function ctxLine(){var f=FACTS[cur];return "You are the assistant on Vihin S's data analyst portfolio, answering a recruiter's question about one project. Use ONLY the facts below. If the answer is not in them, say Vihin hasn't shared that here and suggest emailing vihin01vihin@gmail.com. Never invent numbers, tools or results. Keep answers under 90 words, plain text, no markdown.\n\nProject: "+f.name+"\nFacts: "+f.text+"\n\nQuestion: "}
+function ask(q){q=(q||'').trim();if(!q||busy||!SAMPLE)return;busy=true;inp.value='';
+  addMsg('u',q);hist.push({role:'user',content:(hist.length?'':ctxLine())+q});
+  var out=addMsg('a','Thinking...');ctl=new AbortController();
+  SAMPLE(hist,{cache:false,signal:ctl.signal,onText:function(r){out.textContent=r.text;logEl.scrollTop=logEl.scrollHeight}}).then(function(r){
+    out.textContent=r.text;hist.push({role:'assistant',content:r.text});busy=false},function(e){
+    hist.pop();busy=false;
+    out.textContent=e&&e.code==='not_granted'?'AI answers need your permission. You can email Vihin at vihin01vihin@gmail.com instead.':e&&e.code==='rate_limited'?'Too many questions right now. Try again in a minute.':e&&e.code==='cancelled'?'Stopped.':'Sorry, that did not work. You can email Vihin at vihin01vihin@gmail.com.'})}
+function openAsk(k){cur=k;hist=[];logEl.textContent='';busy=false;
+  addMsg('a','Ask me anything about the '+FACTS[k].name.split(' (')[0].toLowerCase()+' project.');
+  sug.textContent='';FACTS[k].q.forEach(function(q){var b=document.createElement('button');b.type='button';b.className='btn sm';b.textContent=q;b.onclick=function(){ask(q)};sug.appendChild(b)});
+  dlg.showModal();inp.focus()}
+document.getElementById('ask-s').onclick=function(){ask(inp.value)};
+inp.onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();ask(inp.value)}};
+document.getElementById('ask-x').onclick=function(){dlg.close()};
+dlg.addEventListener('close',function(){if(ctl)ctl.abort()});
+dlg.addEventListener('click',function(e){if(e.target===dlg)dlg.close()});
+document.querySelectorAll('.askb').forEach(function(a){a.addEventListener('click',function(e){if(SAMPLE&&typeof dlg.showModal==='function'){e.preventDefault();openAsk(a.dataset.ask)}})});
+if(window.claude&&claude.use){claude.use('sample').then(function(s){if(s){SAMPLE=s;document.querySelectorAll('.askb').forEach(function(a){a.textContent='Ask AI about this'})}}).catch(function(){})}
+
+// data wallpaper: drifting clusters, scrolling line traces, floating query terms
+(function(){
+var cv=document.getElementById('bg'),cx=cv.getContext('2d'),W=0,H=0,nodes=[],labs=[],tr=[],mx=-9999,my=-9999,C={},raf=0,SP=9;
+var WORDS=['SELECT','JOIN','GROUP BY','DAX','RFM','KPI','\u03A3','\u03BC','\u03C3','COUNT(*)','SUM()','AVG()','CAGR','\u0394 YoY','65%','16.1%','Q1','Q2','Q3','Q4'];
+function col(){var g=function(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()};C={a:g('--accent'),h:g('--hi'),m:g('--muted')}}
+function rnd(a,b){return a+Math.random()*(b-a)}
+function build(){var d=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*d;cv.height=H*d;cx.setTransform(d,0,0,d,0,0);
+  var n=Math.min(90,Math.floor(W*H/20000));nodes=[];
+  for(var i=0;i<n;i++)nodes.push({x:rnd(0,W),y:rnd(0,H),vx:rnd(-.18,.18),vy:rnd(-.18,.18),c:i%3,r:rnd(1.6,3.2),z:rnd(.03,.16),py:0});
+  labs=[];for(i=0;i<Math.min(16,Math.floor(W/90));i++)labs.push({x:rnd(0,W),y:rnd(0,H),vx:rnd(-.14,.14),vy:rnd(-.08,.08),w:WORDS[i%WORDS.length],s:rnd(13,20),z:rnd(.05,.22)});
+  tr=[.22,.52,.8].map(function(f,k){var pts=[],v=0,m=Math.ceil(W/SP)+3;for(var j=0;j<m;j++){v=Math.max(-60,Math.min(60,v+rnd(-9,9)));pts.push(v)}return{y:H*f,pts:pts,off:0,v:v,sp:.25+k*.12}})}
+function frame(move){cx.clearRect(0,0,W,H);var sy=scrollY,i,j,a,b,dx,dy,d;
+  // traces
+  cx.lineWidth=2;cx.lineJoin='round';
+  tr.forEach(function(t,k){if(move){t.off+=t.sp;if(t.off>=SP){t.off-=SP;t.pts.shift();t.v=Math.max(-60,Math.min(60,t.v+rnd(-9,9)));t.pts.push(t.v)}}
+    var yy=((t.y-sy*.08)%H+H)%H;cx.globalAlpha=.17;cx.strokeStyle=k===1?C.h:C.a;cx.beginPath();
+    t.pts.forEach(function(v,j){var x=j*SP-t.off,y=yy+v;j?cx.lineTo(x,y):cx.moveTo(x,y)});cx.stroke();
+    cx.globalAlpha=.3;cx.fillStyle=k===1?C.h:C.a;var lx=(t.pts.length-3)*SP-t.off;cx.beginPath();cx.arc(lx,yy+t.pts[t.pts.length-3],3.5,0,6.283);cx.fill()});
+  // nodes
+  for(i=0;i<nodes.length;i++){a=nodes[i];
+    if(move){a.x+=a.vx;a.y+=a.vy;if(a.x<-10)a.x=W+10;if(a.x>W+10)a.x=-10;if(a.y<0)a.y+=H;if(a.y>H)a.y-=H}
+    a.py=((a.y-sy*a.z)%H+H)%H;
+    if(move){dx=a.x-mx;dy=a.py-my;d=Math.sqrt(dx*dx+dy*dy);if(d<130&&d>1){a.x+=dx/d*1.2;a.y+=dy/d*1.2}}}
+  cx.lineWidth=1;
+  for(i=0;i<nodes.length;i++){a=nodes[i];
+    for(j=i+1;j<nodes.length;j++){b=nodes[j];if(a.c!==b.c)continue;dx=a.x-b.x;dy=a.py-b.py;d=dx*dx+dy*dy;
+      if(d<14400){cx.globalAlpha=(1-Math.sqrt(d)/120)*.2;cx.strokeStyle=a.c===0?C.a:a.c===1?C.h:C.m;cx.beginPath();cx.moveTo(a.x,a.py);cx.lineTo(b.x,b.py);cx.stroke()}}}
+  for(i=0;i<nodes.length;i++){a=nodes[i];cx.globalAlpha=.4;cx.fillStyle=a.c===0?C.a:a.c===1?C.h:C.m;cx.beginPath();cx.arc(a.x,a.py,a.r,0,6.283);cx.fill()}
+  // floating terms
+  cx.fillStyle=C.m;cx.globalAlpha=.16;cx.textBaseline='middle';
+  labs.forEach(function(l){if(move){l.x+=l.vx;l.y+=l.vy;if(l.x<-90)l.x=W+60;if(l.x>W+90)l.x=-60}
+    cx.font='600 '+l.s+"px 'Source Sans 3',sans-serif";cx.fillText(l.w,l.x,((l.y-sy*l.z)%H+H)%H)});
+  cx.globalAlpha=1}
+var RMQ=matchMedia('(prefers-reduced-motion:reduce)');
+function loop(){frame(true);raf=requestAnimationFrame(loop)}
+function start(){cancelAnimationFrame(raf);if(RMQ.matches||document.hidden){frame(false);return}loop()}
+col();build();start();
+addEventListener('resize',function(){build();start()});
+addEventListener('pointermove',function(e){mx=e.clientX;my=e.clientY},{passive:true});
+addEventListener('pointerleave',function(){mx=my=-9999});
+if(RMQ.matches)addEventListener('scroll',function(){frame(false)},{passive:true});
+document.addEventListener('visibilitychange',start);
+matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(){col();start()});
+})();
+
+// copy email
+document.getElementById('cp').onclick=function(){var b=this;
+  try{navigator.clipboard.writeText('vihin01vihin@gmail.com').then(function(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy email'},1800)},function(){b.textContent='vihin01vihin@gmail.com'})}
+  catch(e){b.textContent='vihin01vihin@gmail.com'}};
+</script>
+</body>
+</html>
